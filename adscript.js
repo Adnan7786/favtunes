@@ -216,7 +216,9 @@ function loadNow() {
 }
 
 //preloading all backgrounds to cache
-preloadImages(["bg/1.jpg", "bg/2.jpg", "bg/3.jpg", "bg/4.jpg", "bg/5.jpg", "bg/6.jpg", "bg/7.jpg", "bg/8.jpg", "bg/9.jpg","bg/10.jpg"], true);
+function bcache(){
+	preloadImages(["bg/1.jpg", "bg/2.jpg", "bg/3.jpg", "bg/4.jpg", "bg/5.jpg", "bg/6.jpg", "bg/7.jpg", "bg/8.jpg", "bg/9.jpg","bg/10.jpg"], true);
+}
 
 function update_cs(ccpi){
 	cs = ccpi;
