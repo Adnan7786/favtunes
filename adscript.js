@@ -171,9 +171,8 @@ function initialiseSongs(){
 function songclick(i){
 		var x= document.getElementById("audio-4");
 		x.src = "" +songs[i].srce;
-		x.onload = x.play();
-	        random_bg_color();
 		getRandomBackground(1,10);
+	        x.onload = x.play();
 		getlyrics(i);
 		loopplaylist();
 }
