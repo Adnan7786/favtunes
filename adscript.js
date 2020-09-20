@@ -171,53 +171,25 @@ function initialiseSongs(){
 function songclick(i){
 		var x= document.getElementById("audio-4");
 		x.src = "" +songs[i].srce;
-		x.onplay = function() {getRandomBackground(1,10)};
 	    	x.onload = x.play();
+		x.onplay = function() {random_bg_color()};
 		getlyrics(i);
 		loopplaylist();
 }
 
-//preload backrounds into cache
-function preloadImages(array, waitForOtherResources, timeout) {
-    var loaded = false, list = preloadImages.list, imgs = array.slice(0), t = timeout || 15*1000, timer;
-    if (!preloadImages.list) {
-        preloadImages.list = [];
-    }
-    if (!waitForOtherResources || document.readyState === 'complete') {
-        loadNow();
-    } else {
-        window.addEventListener("load", function() {
-            clearTimeout(timer);
-            loadNow();
-        });
-        // in case window.addEventListener doesn't get called (sometimes some resource gets stuck)
-        // then preload the images anyway after some timeout time
-        timer = setTimeout(loadNow, t);
-    }
+function random_bg_color() {
 
-function loadNow() {
-        if (!loaded) {
-            loaded = true;
-            for (var i = 0; i < imgs.length; i++) {
-                var img = new Image();
-                img.onload = img.onerror = img.onabort = function() {
-                    var index = list.indexOf(this);
-                    if (index !== -1) {
-                        // remove image from the array once it's loaded
-                        // for memory consumption reasons
-                        list.splice(index, 1);
-                    }
-                }
-                list.push(img);
-                img.src = imgs[i];
-            }
-        }
-    }
-}
+  // Get a number between 64 to 256 (for getting lighter colors)
+  let red = Math.floor(Math.random() * 256) + 64;
+  let green = Math.floor(Math.random() * 256) + 64;
+  let blue = Math.floor(Math.random() * 256) + 64;
 
-//preloading all backgrounds to cache
-function bcache(){
-	preloadImages(["bg/1.jpg", "bg/2.jpg", "bg/3.jpg", "bg/4.jpg", "bg/5.jpg", "bg/6.jpg", "bg/7.jpg", "bg/8.jpg", "bg/9.jpg","bg/10.jpg"], true);
+  // Construct a color withe the given values
+  let bgColor = "rgb(" + red + "," + green + "," + blue + ")";
+
+  // Set the background to that color
+  document.body.style.background = bgColor;
+  //document.getElementById("dJ").style.background = bgColor;
 }
 
 function update_cs(ccpi){
@@ -246,7 +218,7 @@ function sdesc(i){
 	return text;
 }
 
-
+/*
 function getRandomBackground(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -254,7 +226,7 @@ function getRandomBackground(min, max) {
 	document.body.style.background = "url('bg/" + x + ".jpg') center top fixed no-repeat";
 }
 
-
+*/
 
 
 var cs; //current song playing curplaylist-index
