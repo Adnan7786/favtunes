@@ -171,7 +171,7 @@ function initialiseSongs(){
 function songclick(i){
 		var x= document.getElementById("audio-4");
 		x.src = "" +songs[i].srce;
-	    	x.onload = function() {x.play()};
+	    	if (x.readyState==4){x.play()};
 		x.onplay = function() {random_bg_color()};
 		getlyrics(i);
 		loopplaylist();
@@ -233,6 +233,11 @@ var cs; //current song playing curplaylist-index
 var curplaylist;
 var ccpi; // to update song index in curplaylist 
 //function for loading tracks in playlist
+var ccpi; // to update song index in curplaylist 
+var art_list = {}; // store all artist name
+var sart_list=[];
+//function for loading tracks in playlist
+var tc=0;
 function loadtrack(){
 	if (arguments[0]==1){
 		curplaylist=[];
@@ -242,6 +247,16 @@ function loadtrack(){
 		var i;
 		var text="<div class=\"ad-hide-large\" style=\"margin-top:83px\"></div><table>";
 		for(i=0;i<songs.length;i++) {
+			if (tc==0){
+				var j;
+				for(j=0;j<songs[i].artist.length;j++) {
+					if (art_list[songs[i].artist[j]]==undefined){
+						art_list[songs[i].artist[j]]=1;
+					} else {
+						art_list[songs[i].artist[j]]+=1;
+					}
+				}
+			}
 			curplaylist.push(i);
 			text+="<tr><td onclick=songclick(" + i + ");update_cs(" + ccpi + ");>" + songs[i].name + "<br><small>" 
 				+songs[i].artist + "</small></td></tr>";
@@ -249,6 +264,14 @@ function loadtrack(){
 		}
 		text+="</table>";
 		document.getElementById("playlist").innerHTML = text;
+		if (tc==0){
+			var x;
+			for (x in art_list){
+				sart_list.push(x);
+			}
+			sart_list.sort();
+		}
+		tc=1;
 	}
 	else if (arguments[0]==2){
 		curplaylist=[];
@@ -273,7 +296,6 @@ function loadtrack(){
 		curplaylist=[];
 		cs=-1;
 		ccpi=0;
-		//songs sorted by language
 		var i;
 		var text="<div class=\"ad-hide-large\" style=\"margin-top:83px\"></div><table>";
 		for(i=0;i<songs.length;i++) {
@@ -291,7 +313,6 @@ function loadtrack(){
 		document.getElementById("playlist").innerHTML = text;
 		
 	}
-	
 	else if (arguments[0]==4){
 		if (arguments.length==1){
 			curplaylist=[];
@@ -323,7 +344,7 @@ function loadtrack(){
 			text+="</table>";
 			document.getElementById("playlist").innerHTML = text;	
 		}
-	}
+	}		
 	
 	ad_close();
 }
