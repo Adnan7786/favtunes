@@ -171,7 +171,7 @@ function initialiseSongs(){
 function songclick(i){
 		var x= document.getElementById("audio-4");
 		x.src = "" +songs[i].srce;
-	    	x.onload = x.play();
+	    	x.onload = function() {x.play()};
 		x.onplay = function() {random_bg_color()};
 		getlyrics(i);
 		loopplaylist();
@@ -291,6 +291,40 @@ function loadtrack(){
 		document.getElementById("playlist").innerHTML = text;
 		
 	}
+	
+	else if (arguments[0]==4){
+		if (arguments.length==1){
+			curplaylist=[];
+			var i;
+			var text="<div class=\"ad-hide-large\" style=\"margin-top:83px\"></div><table>";
+			for(i=0;i<sart_list.length;i++) {
+				text+="<tr><td onclick = loadtrack(4," + i + ");>" + sart_list[i] + "<br><small>" 
+					+ art_list[sart_list[i]] + " songs available</small></td></tr>";
+			}
+			text+="</table>";
+			document.getElementById("playlist").innerHTML = text;
+		} else {
+			curplaylist=[];
+			cs=-1;
+			ccpi=0;
+			var i;
+			var text="<div class=\"ad-hide-large\" style=\"margin-top:83px\"></div><table>";
+			for(i=0;i<songs.length;i++) {
+				var j;
+				for(j=0;j<songs[i].artist.length;j++) {
+					if (songs[i].artist[j]==sart_list[arguments[1]]){
+						curplaylist.push(i);
+						text+="<tr><td onclick=songclick(" + i + ");update_cs(" + ccpi + ");>" + songs[i].name + "<br><small>" 
+							+songs[i].artist + "</small></td></tr>";
+						ccpi+=1;
+					}
+				}
+			}
+			text+="</table>";
+			document.getElementById("playlist").innerHTML = text;	
+		}
+	}
+	
 	ad_close();
 }
 function loopplaylist(){
